@@ -37,6 +37,7 @@
         ratioFont: 1.5,
         shortInt: false,
         tipClass: "doughnutTip",
+        summarySource: "default",
         summaryClass: "doughnutSummary",
         summaryTitle: "TOTAL:",
         summaryTitleClass: "doughnutSummaryTitle",
@@ -195,7 +196,12 @@
           rotateAnimation = 1;
       if (settings.animation && settings.animateRotate) rotateAnimation = animationDecimal;//count up between0~1
 
-      drawDoughnutText(animationDecimal, segmentTotal);
+      if(settings.summarySource === 'default'){
+        drawDoughnutText(animationDecimal, segmentTotal);
+      } else {
+        drawDoughnutText(animationDecimal, data[settings.summarySource].value);
+      }
+        
 
       $pathGroup.attr("opacity", animationDecimal);
 
@@ -228,11 +234,13 @@
       }
     }
     function drawDoughnutText(animationDecimal, segmentTotal) {
+      var currentNumber = (segmentTotal * animationDecimal).toFixed(1);
+      
       $summaryNumber
         .css({opacity: animationDecimal})
         .text((segmentTotal * animationDecimal).toFixed(1));
-	  var tmpNumber = settings.shortInt ? shortKInt(segmentTotal) : segmentTotal;
-	  $summaryNumber.html(tmpNumber).css('font-size', getScaleFontSize( $summaryNumber, tmpNumber));
+     var tmpNumber = settings.shortInt ? shortKInt(currentNumber) : currentNumber;
+     $summaryNumber.html(tmpNumber).css('font-size', getScaleFontSize( $summaryNumber, tmpNumber));
     }
     function animateFrame(cnt, drawData) {
       var easeAdjustedAnimationPercent =(settings.animation)? CapValue(easingFunction(cnt), null, 0) : 1;
