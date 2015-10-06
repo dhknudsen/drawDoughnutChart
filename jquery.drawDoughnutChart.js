@@ -38,6 +38,7 @@
         shortInt: false,
         tipClass: "doughnutTip",
         summarySource: "default",
+        summaryDecimalPlaces: 1,
         summaryClass: "doughnutSummary",
         summaryTitle: "TOTAL:",
         summaryTitleClass: "doughnutSummaryTitle",
@@ -234,11 +235,11 @@
       }
     }
     function drawDoughnutText(animationDecimal, segmentTotal) {
-      var currentNumber = (segmentTotal * animationDecimal).toFixed(1);
+      var currentNumber = (segmentTotal * animationDecimal).toFixed(settings.summaryDecimalPlaces);
       
       $summaryNumber
         .css({opacity: animationDecimal})
-        .text((segmentTotal * animationDecimal).toFixed(1));
+        .text((segmentTotal * animationDecimal).toFixed(settings.summaryDecimalPlaces));
      var tmpNumber = settings.shortInt ? shortKInt(currentNumber) : currentNumber;
      $summaryNumber.html(tmpNumber).css('font-size', getScaleFontSize( $summaryNumber, tmpNumber));
     }
